@@ -101,10 +101,18 @@ public class AirportRepository {
 
     public String getAirportNameFromFlightId(Integer flightId)
     {
-        if(!flightDb.containsKey(flightId))
-            return null;
-        Flight flight = flightDb.get(flightId);
-        return flight.getFromCity().toString();
+        if(flightDb.containsKey(flightId))
+        {
+            Flight flight = flightDb.get(flightId);
+            City fromCity = flight.getFromCity();
+            for(Airport airport: airportDb.values())
+            {
+                if(fromCity.equals(airport.getCity()))
+                    return airport.getAirportName();
+            }
+        }
+        return null;
+
     }
 
     public int calculateFlightFare(Integer flightId)
@@ -136,9 +144,19 @@ public class AirportRepository {
         int numberOfPeople = 0;
         if(flightDb.size()==0)
             return 0;
+        HashMap<City,String> cityAirportName = new HashMap<>();
+        for(String airportN: airportDb.keySet())
+        {
+            City city = airportDb.get(airportN).getCity();
+            cityAirportName.put(city,airportN);
+        }
         for(Flight flight: flightDb.values())
         {
-            if(flight.getFromCity().toString().equals(airportName) || flight.getToCity().toString().equals(airportName))
+            City fromCity = flight.getFromCity();
+            City toCity = flight.getFromCity();
+            String fromAirportName = cityAirportName.get(fromCity);
+            String toAirportName = cityAirportName.get(toCity);
+            if(fromAirportName.equals(airportName) || toAirportName.equals(airportName))
             {
                 numberOfPeople += bookings.get(flight.getFlightId()).size();
             }
