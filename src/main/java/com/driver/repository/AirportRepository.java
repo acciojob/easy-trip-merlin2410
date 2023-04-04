@@ -142,7 +142,7 @@ public class AirportRepository {
     public int getNumberOfPeopleOn(Date date, String airportName)
     {
         int numberOfPeople = 0;
-        if(Objects.isNull(airportDb))
+        if(airportDb.size()==0)
             return 0;
         City city = airportDb.get(airportName).getCity();
 
