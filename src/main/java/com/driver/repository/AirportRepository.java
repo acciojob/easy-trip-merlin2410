@@ -141,16 +141,18 @@ public class AirportRepository {
 
     public int getNumberOfPeopleOn(Date date, String airportName)
     {
-        int numberOfPeople = 0;
+
         if(airportDb.size()==0)
             return 0;
-        City city = airportDb.get(airportName).getCity();
         if(flightDb.size()==0)
             return 0;
+        int numberOfPeople = 0;
+        City city = airportDb.get(airportName).getCity();
+
         for(Flight flight: flightDb.values())
         {
 
-            if(date.equals(flight.getFlightDate()))
+            if( flight!=null && date.equals(flight.getFlightDate()))
             {
                 if(city.equals(flight.getFromCity()) || city.equals(flight.getToCity()))
                 {
