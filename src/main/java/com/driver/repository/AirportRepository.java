@@ -26,6 +26,8 @@ public class AirportRepository {
     public List<Airport> listOfAirports()
     {
         List<Airport> list = new ArrayList<>();
+        if(airportDb.size()==0)
+            return list;
         for(Airport airport: airportDb.values())
         {
             list.add(airport);
@@ -117,6 +119,8 @@ public class AirportRepository {
     public List<Flight> listOfFlightsBetweenCities(City fromCity, City toCity)
     {
         List<Flight> list = new ArrayList<>();
+        if(flightDb.size()==0)
+            return list;
         for(Flight flight: flightDb.values())
         {
             if(flight.getFromCity().equals(fromCity) && flight.getToCity().equals(toCity))
@@ -130,6 +134,8 @@ public class AirportRepository {
     public int getNumberOfPeopleOn(Date date, String airportName)
     {
         int numberOfPeople = 0;
+        if(flightDb.size()==0)
+            return 0;
         for(Flight flight: flightDb.values())
         {
             if(flight.getFromCity().toString().equals(airportName) || flight.getToCity().toString().equals(airportName))
@@ -143,7 +149,11 @@ public class AirportRepository {
     public int calculateRevenueOfAFlight(Integer flightId)
     {
         int revenue = 0;
+        if(!bookings.containsKey(flightId))
+            return 0;
         HashMap<Integer,Integer> passengerList = bookings.get(flightId);
+        if(passengerList.size()==0)
+            return 0;
         for(Integer fare: passengerList.values())
         {
             revenue += fare;
