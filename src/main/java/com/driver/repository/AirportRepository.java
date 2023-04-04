@@ -142,23 +142,19 @@ public class AirportRepository {
     public int getNumberOfPeopleOn(Date date, String airportName)
     {
         int numberOfPeople = 0;
-        if(flightDb.size()==0)
+        if(Objects.isNull(airportDb))
             return 0;
-        HashMap<City,String> cityAirportName = new HashMap<>();
-        for(String airportN: airportDb.keySet())
-        {
-            City city = airportDb.get(airportN).getCity();
-            cityAirportName.put(city,airportN);
-        }
+        City city = airportDb.get(airportName).getCity();
+
         for(Flight flight: flightDb.values())
         {
-            City fromCity = flight.getFromCity();
-            City toCity = flight.getFromCity();
-            String fromAirportName = cityAirportName.get(fromCity);
-            String toAirportName = cityAirportName.get(toCity);
-            if((fromAirportName.equals(airportName) || toAirportName.equals(airportName)) && date.equals(flight.getFlightDate()))
+
+            if(date.equals(flight.getFlightDate()))
             {
-                numberOfPeople += bookings.get(flight.getFlightId()).size();
+                if(city.equals(flight.getFromCity()) || city.equals(flight.getToCity()))
+                {
+                    numberOfPeople += bookings.get(flight.getFlightId()).size();
+                }
             }
         }
         return numberOfPeople;
