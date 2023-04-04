@@ -156,7 +156,7 @@ public class AirportRepository {
             City toCity = flight.getFromCity();
             String fromAirportName = cityAirportName.get(fromCity);
             String toAirportName = cityAirportName.get(toCity);
-            if(fromAirportName.equals(airportName) || toAirportName.equals(airportName))
+            if((fromAirportName.equals(airportName) || toAirportName.equals(airportName)) && date.equals(flight.getFlightDate()))
             {
                 numberOfPeople += bookings.get(flight.getFlightId()).size();
             }
