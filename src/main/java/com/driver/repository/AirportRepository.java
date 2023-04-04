@@ -145,7 +145,8 @@ public class AirportRepository {
         if(airportDb.size()==0)
             return 0;
         City city = airportDb.get(airportName).getCity();
-
+        if(flightDb.size()==0)
+            return 0;
         for(Flight flight: flightDb.values())
         {
 
